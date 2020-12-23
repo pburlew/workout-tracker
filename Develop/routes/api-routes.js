@@ -13,9 +13,9 @@ router.get("/api/workouts", (req, res) => {
     })
 });
 
-router.post("/api/workouts", ({ body }, res) => {
+router.post("/api/workouts", (req, res) => {
     db.Workout.create(body)
-    .then(dbWorkot => {
+    .then(dbWorkout => {
         res.json(dbWorkout);
     })
     .catch(err => {
@@ -23,7 +23,7 @@ router.post("/api/workouts", ({ body }, res) => {
     });
 });
 
-router.get("/api/workouts/range", ({ body }, res) => {
+router.get("/api/workouts/range", (req, res) => {
     db.Workout.find()
     .then(dbWorkout => {
         res.json(dbWorkout);
@@ -49,6 +49,37 @@ router.get("/api/workouts/:id", ( { body} , res) => {
    
 });
 
+
+router.put("/api/workouts/:id", ({body, params}, res) => {
+    // console.log(body, params)
+    const id = params.id;
+    let savedExercises = [];
+
+    // gets all the currently saved exercises in the current workout
+    db.Workout.find({_id: id})
+        .then(dbWorkout => {
+            // console.log(dbWorkout); WORKING
+            savedExercises = dbWorkout[0].exercises;
+            // console.log('savedExcercises', savedExercises); WORKING
+            // console.log('longway', dbWorkout[0].exercises);
+            res.json(savedExercises);
+            // console.log('body', body); WORKING
+            let allExercises = [...savedExercises, body];
+            // console.log('allExercises', allExercises);
+            updateWorkout(allExercises);
+        })
+        .catch(err => {
+            res.json(err);
+        });
+
+    function updateWorkout(exercises){
+        db.Workout.findByIdAndUpdate(id, {exercises: exercises}, function(err, doc){
+        if(err){
+            console.log(err)
+        }
+        })
+    }        
+});
 
 
 
