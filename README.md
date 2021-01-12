@@ -1,4 +1,7 @@
 Workout Tracker 
+## DEPLOYMENT
+
+Deployed on: https://desolate-castle-52837.herokuapp.com/
 
 ## User Story
 
@@ -24,6 +27,8 @@ The user should be able to:
 
   ## TECH USED 
   I created Mongo database with a Mongoose schema and handle routes with Express- then deploying on Heroku.
+![example](pic2.png)
+
 
 ## CONTACT
 Paigeburlew@gmail.com
